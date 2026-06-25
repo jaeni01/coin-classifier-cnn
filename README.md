@@ -143,12 +143,25 @@ public static ModelOutput Predict(ModelInput input)
 >
 > **Solution:** 단일 데이터셋을 5-Fold 교차검증(CrossValidate)으로 평가해 평균 정확도와 표준편차·신뢰구간을 함께 산출했습니다. 또한 동전을 여러 각도로 회전·다양한 조명에서 촬영해 데이터 다양성을 확보, 최종 100원 판별 정확도 94.60%를 달성했습니다.
 
-## 📸 스크린샷
+## 📸 프로젝트 흐름 및 이미지 기록
+> 입력 이미지 → 전처리 → ML.NET 추론 → WinForms 결과 표시 흐름이 보이도록 구성했습니다. 동전의 앞/뒷면과 폐동전 여부를 함께 보여줘 단순 분류 정확도뿐 아니라 실제 사용 화면까지 확인할 수 있습니다.
+
+```mermaid
+flowchart LR
+    Image[Coin Image] --> Preprocess[OpenCV Binarization]
+    Preprocess --> Model[ML.NET Image Classifier]
+    Model --> Result[Prediction + Probability]
+    Result --> UI[WinForms Result View]
+```
 
 | 화면 | 설명 |
 |------|------|
-| ![화면1](images/01.png) | WinForms 판별 GUI — 동전 앞·뒷면 이진화 이미지와 확률·결과를 표시하며, 사용가능 동전 인식과 폐동전 인식 결과를 비교 |
-| ![화면2](images/02.png) | 동전 이진화 전처리 — 빛 반사로 패턴이 보이지 않던 원본을 이진화해 500원 등 동전의 숫자·그림을 또렷하게 변환 |
+| ![최종 판별 GUI](images/01.png) | WinForms 판별 GUI — 동전 앞·뒷면 이진화 이미지와 확률·결과를 표시하며 사용 가능 동전과 폐동전 결과를 비교 |
+| ![동전 이진화 전처리](images/02.png) | 동전 이진화 전처리 — 빛 반사로 패턴이 보이지 않던 원본을 이진화해 숫자·문양 특징을 또렷하게 변환 |
+| ![최종 결과 비교](images/03_final-comparison.png) | 최종 결과 비교 — 정상 500원과 폐동전 케이스를 같은 화면에 배치해 모델 판정 차이를 확인 |
+| ![100원 판별 결과](images/04_prediction-100won.png) | 100원 판별 예시 — `100원 = 94.60%`처럼 추론 확률을 UI에 표시해 결과 신뢰도를 함께 제공 |
+| ![전처리 UI](images/05_preprocess-ui.png) | 전처리/판별 UI — 입력 이미지 경로, 앞면/뒷면 처리 결과, 예측값이 한 화면에서 이어지는 구조 |
+| ![이진화 테스트](images/06_coin-binarization.png) | 이진화 테스트 — 원본 대비 이진화 결과를 확인하며 조명 변화에 따른 특징 보존 여부를 검증 |
 
 ## 🎬 시연 영상
 > 준비 중
